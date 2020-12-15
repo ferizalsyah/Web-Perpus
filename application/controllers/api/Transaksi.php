@@ -1,5 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+use \Firebase\JWT\JWT;
+require FCPATH . 'vendor/autoload.php';
+
 class Transaksi extends CI_Controller
 {
 
@@ -7,88 +10,79 @@ class Transaksi extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
-        //$this->load->model('Buku_model');
+        $this->token = $this->input->get_request_header('Authorization');
+        $this->load->model('Peminjaman_model');
+        $this->handelAuth();
     }
 
-    /* halaman depan */
-    public function index()
-    {
-        $pijam = $this->Buku_model->get_data_pinjam()->result();
 
-        if ($pijam  != null) {
-            $data = $this->db->get_where('tb_pinjam')->result();
-        } else {
-            return false;
+      public function handelAuth() {
+        if ($this->token == null) {
+            echo json_encode([
+                "response" => [
+                    "success" => true,
+                    "token" => $this->token,
+                    "msg" => "token tidak valid",
+                    "statuscode" => 200,
+                ]
+            ]);
         }
-        $response = [
-            "response" => [
-                "data" => $data
-            ]
-        ];
-        echo json_encode($response);
     }
 
-    public function get_data_kembali()
+  
+    public function get_data_pinjam()
     {
-        $kembali = $this->Buku_model->get_data_kembali()->result();
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents('php://input'), true);
+        $key = "example_key";
+        $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
+        $userId  = $data != null ? explode('-', $data)[1] : null;
 
-        if ($kembali  != null) {
-            $data = $this->db->get_where('tb_kembali')->result();
-        } else {
-            return false;
+        if($userId != null) {
+            /* user ditemukan  */
+            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
+             $response = [
+                "response" => [
+                    "data" => $res,
+                ]
+            ];
+        }else {
+            /* user tidak ditemukan  */
+            $response = [
+                "response" => [
+                    "data" => null,
+                ]
+            ];
         }
-        $response = [
-            "response" => [
-                "data" => $data
-            ]
-        ];
-        echo json_encode($response);
+          echo json_encode($response);
     }
 
+    /**
+     * post peminjaman baru dari android
+     */
 
+    public function pinjam_buku() {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $key = "example_key";
+        $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
+        $userId  = $data != null ? explode('-', $data)[1] : null;
 
-    /* api oook halaman tampil seluruh buku  */
-    public function tampilAllBook()
-    {
-        $id = $this->input->get('id_kategori');
-
-        // die($id);
-        if ($id != null) {
-            $buku = $this->db->get_where('tb_buku', ['id_kategori' => $id])->result();
-        } else {
-            $buku = $this->db->get('tb_buku')->result();
+        if($userId != null) {
+            /* user ditemukan  */
+            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
+             $response = [
+                "response" => [
+                    "data" => $res,
+                ]
+            ];
+        }else {
+            /* user tidak ditemukan  */
+            $response = [
+                "response" => [
+                    "data" => null,
+                ]
+            ];
         }
-        $response = [
-            "response" => [
-                "dataa"  => $buku
-            ]
-        ];
-        echo json_encode($response);
-    }
-
-    /* api book tampil deskiripsi buku */
-    public function api_description_book($id)
-    {
-        /* cari buku berdasaran id */
-    }
-
-    public function login_post()
-    {
-
-        $email = $this->input->post('email');
-        $password = $this->input->post('password');
-        $result = $this->input->login_post($email, $password);
-        echo json_encode($result);
-    }
-
-
-
-    public function profile()
-    {
-
-        $data['title'] = 'Profile Sekolah';
-        $tmp['content'] = $this->load->view('global/profile', $data, TRUE);
-        $this->load->view('global/layout', $tmp);
+          echo json_encode($response);
     }
 }

@@ -36,11 +36,20 @@ class Buku_model extends CI_Model
 		return $this->db->get('tb_kategori');
 	}
 
+	public function getBukuBykategori($id) {
+		$this->db->from('tb_buku buku');
+		$this->db->select('buku.*, rak.nama_rak');
+		$this->db->join('tb_rak rak', 'rak.no_rak=buku.no_rak');
+		$this->db->where('buku.id_kategori', $id);
+		return $this->db->get();
+	}
+
 	public function group_kat_rak()
 	{
-		$this->db->select('buku.judul , buku.id_buku , buku.id_kategori, buku.foto , kat.kategori');
+		$this->db->select('buku.judul , buku.id_buku , buku.id_kategori, buku.foto, buku.no_rak, buku.thn_terbit, buku.ket, rak.nama_rak, kat.kategori');
 		$this->db->from('tb_buku buku');
 		$this->db->join('tb_kategori kat', 'buku.id_kategori=kat.id_kategori');
+		$this->db->join('tb_rak rak', 'rak.no_rak=buku.no_rak');
 		$this->db->group_by('kat.id_kategori');
 		return $this->db->get();
 	}

@@ -5,7 +5,7 @@ use \Firebase\JWT\JWT;
 require FCPATH . 'vendor/autoload.php';
 
 
-class Buku extends CI_Controller
+class Profil extends CI_Controller
 {
 
 
@@ -13,7 +13,7 @@ class Buku extends CI_Controller
     {
         parent::__construct();
         $this->token = $this->input->get_request_header('Authorization');
-        $this->load->model('Buku_model');
+        $this->load->model('Profil_model');
         $this->handelAuth();
     }
     public function handelAuth() {
@@ -38,27 +38,13 @@ class Buku extends CI_Controller
             $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
             $userId  = $data != null ? explode('-', $data)[1] : null;
             if ($userId != null) {
-                $buku = $this->Buku_model->group_kat_rak()->result();
-                $kat = $this->Buku_model->get_all_kategori()->result();
-
-                $tampungBuku = [];
-                foreach ($kat as $key => $kat_item) {
-                    $tmp_buku = [];
-                    $tmp = [];
-                    foreach ($buku as $keyBook => $book_item) {
-                        if ($kat_item->id_kategori === $book_item->id_kategori) {
-                            array_push($tmp_buku, $book_item);
-                        }
-                    }
-                    $tmp['kategori'] = $kat_item->kategori;
-                    $tmp['id_kategori'] = $kat_item->id_kategori;
-                    $tmp['data'] = $tmp_buku;
-
-                    array_push($tampungBuku, $tmp);
-                }
+                $user = $this->Profil_model->getProfil($userId)->row();
                 $response = [
-                    "response" => $tampungBuku
+                    "response" => [
+                        "data" => $user,
+                    ]
                 ];
+
                 echo json_encode($response);
             } else {
                 echo json_encode([
@@ -68,6 +54,7 @@ class Buku extends CI_Controller
                 ]);
             };
         } catch (\Throwable $th) {
+            print($th);
             echo json_encode([
                 "response" => [
                     "msg" => 'token salah',
@@ -84,7 +71,7 @@ class Buku extends CI_Controller
 
         $id = $this->input->get('id_kategori');
         if ($id != null) {
-            $buku = $this->Buku_model->getBukuBykategori($id)->result();
+            $buku = $this->db->get_where('tb_buku', ['id_kategori' => $id])->result();
             $kat = $this->db->get_where('tb_kategori', ['id_kategori' => $id])->row()->kategori;
             $response = [
                 "title" => $kat,
@@ -105,5 +92,4 @@ class Buku extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($response);
     }
-
 }
