@@ -25,11 +25,6 @@ class Buku_model extends CI_Model
 	{
 		return $this->db->query('SELECT a.id_buku,a.ISBN,a.judul,b.kategori,c.nama_penerbit,d.nama_pengarang,e.nama_rak,a.thn_terbit,a.stok,a.ket FROM tb_buku AS a INNER JOIN tb_kategori AS b ON a.id_kategori=b.id_kategori INNER JOIN tb_penerbit AS c ON a.id_penerbit=c.id_penerbit INNER JOIN tb_pengarang AS d ON a.id_pengarang=d.id_pengarang INNER JOIN tb_rak AS e ON a.no_rak=e.no_rak' . (isset($this->wheree) ? $this->wheree : ''));
 	}
-	// get data 10 buku
-	// public function getDataBuku()
-	// {
-	// 	return $this->db->query('SELECT');
-	// }
 
 	public function get_all_rak()
 	{

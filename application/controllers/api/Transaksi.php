@@ -47,32 +47,6 @@ class Transaksi extends CI_Controller
     }
 
 
-    // public function index()
-    // {
-    //     // get buku 
-    //     $buku = $this->Buku_model->group_kat_rak()->result();
-    //     $kat = $this->Buku_model->get_all_kategori()->result();
-
-    //     $tampungBuku = [];
-    //     foreach ($kat as $key => $kat_item) {
-    //         $tmp_buku = [];
-    //         $tmp = [];
-    //         foreach ($buku as $keyBook => $book_item) {
-    //             if ($kat_item->id_kategori === $book_item->id_kategori) {
-    //                 array_push($tmp_buku, $book_item);
-    //             }
-    //         }
-    //         $tmp['kategori'] = $kat_item->kategori;
-    //         $tmp['id_kategori'] = $kat_item->id_kategori;
-    //         $tmp['data'] = $tmp_buku;
-
-    //         array_push($tampungBuku, $tmp);
-    //     }
-    //     $response = [
-    //         "response" => $tampungBuku
-    //     ];
-    //     echo json_encode($response);
-    // }
 
     /* api oook halaman tampil seluruh buku  */
     public function tampilAllBook()

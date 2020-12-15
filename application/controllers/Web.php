@@ -45,7 +45,7 @@ class Web extends CI_Controller
 			$st = $this->session->userdata('stts');
 			echo $s = $this->session->userdata('username');
 			if ($st == 'admin') {
-				header('location:' . base_url() . 'admin/Home');
+				header('location:' . base_url() . 'admin/Home1');
 			} else if ($st == 'petugas') {
 				header('location:' . base_url() . 'petugas/Home');
 			}

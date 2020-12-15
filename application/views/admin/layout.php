@@ -66,7 +66,7 @@ desired effect
     <header class="main-header">
 
       <!-- Logo -->
-      <a href="<?php echo base_url(); ?>admin/Home"" class=" logo">
+      <a href="<?php echo base_url(); ?>admin/Home"" class=" logo" style="background-color: black !important;">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>S</b>P</span>
         <!-- logo for regular state and mobile devices -->
@@ -74,7 +74,7 @@ desired effect
       </a>
 
       <!-- Header Navbar -->
-      <nav class="navbar navbar-static-top" role="navigation">
+      <nav class="navbar navbar-static-top" role="navigation" style="background-color: black !important;">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>

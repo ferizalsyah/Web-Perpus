@@ -81,6 +81,7 @@
 
   <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#000000">
   <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+  {/* <link rel="icon" type="image/x-icon" href="assets2/img/title.png"> */}
 
 <meta name="theme-color" content="#1e2327">
 

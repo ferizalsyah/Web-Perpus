@@ -1,5 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+use \Firebase\JWT\JWT;
+
+require FCPATH . 'vendor/autoload.php';
+
+
 class Buku extends CI_Controller
 {
 
@@ -7,37 +12,73 @@ class Buku extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->token = $this->input->get_request_header('Authorization');
+        if ($this->token == null) {
+            echo json_encode([
+                "response" => [
+                    "success" => true,
+                    "token" => $this->token,
+                    "msg" => "token tidak valid",
+                    "statuscode" => 200,
+
+                ]
+            ]);
+        }
 
         //$this->load->model('Buku_model');
     }
-
+    // url
     /* halaman depan */
     public function index()
     {
-        // get buku 
-        $buku = $this->Buku_model->group_kat_rak()->result();
-        $kat = $this->Buku_model->get_all_kategori()->result();
+        $key = "example_key";
+        try {
+            $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
+            $userId  = $data != null ? explode('-', $data)[1] : null;
 
-        $tampungBuku = [];
-        foreach ($kat as $key => $kat_item) {
-            $tmp_buku = [];
-            $tmp = [];
-            foreach ($buku as $keyBook => $book_item) {
-                if ($kat_item->id_kategori === $book_item->id_kategori) {
-                    array_push($tmp_buku, $book_item);
+            if ($userId != null) {
+                $buku = $this->Buku_model->group_kat_rak()->result();
+                $kat = $this->Buku_model->get_all_kategori()->result();
+
+                $tampungBuku = [];
+                foreach ($kat as $key => $kat_item) {
+                    $tmp_buku = [];
+                    $tmp = [];
+                    foreach ($buku as $keyBook => $book_item) {
+                        if ($kat_item->id_kategori === $book_item->id_kategori) {
+                            array_push($tmp_buku, $book_item);
+                        }
+                    }
+                    $tmp['kategori'] = $kat_item->kategori;
+                    $tmp['id_kategori'] = $kat_item->id_kategori;
+                    $tmp['data'] = $tmp_buku;
+
+                    array_push($tampungBuku, $tmp);
                 }
-            }
-            $tmp['kategori'] = $kat_item->kategori;
-            $tmp['id_kategori'] = $kat_item->id_kategori;
-            $tmp['data'] = $tmp_buku;
-
-            array_push($tampungBuku, $tmp);
+                $response = [
+                    "response" => $tampungBuku
+                ];
+                echo json_encode($response);
+            } else {
+                echo json_encode([
+                    "response" => [
+                        "msg" => 'token salah',
+                    ]
+                ]);
+            };
+        } catch (\Throwable $th) {
+            echo json_encode([
+                "response" => [
+                    "msg" => 'token salah',
+                ]
+            ]);
         }
-        $response = [
-            "response" => $tampungBuku
-        ];
-        echo json_encode($response);
+
+
+        // get buku 
     }
+
+
 
     /* api oook halaman tampil seluruh buku  */
     public function tampilAllBook()
@@ -82,18 +123,6 @@ class Buku extends CI_Controller
     {
         /* cari buku berdasaran id */
     }
-
-    public function login_post()
-    {
-
-        $email = $this->input->post('email');
-        $password = $this->input->post('password');
-        $result = $this->input->login_post($email, $password);
-        echo json_encode($result);
-    }
-
-
-
     public function profile()
     {
 
