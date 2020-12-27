@@ -16,7 +16,8 @@ class Buku extends CI_Controller
         $this->load->model('Buku_model');
         $this->handelAuth();
     }
-    public function handelAuth() {
+    public function handelAuth()
+    {
         if ($this->token == null) {
             echo json_encode([
                 "response" => [
@@ -40,7 +41,6 @@ class Buku extends CI_Controller
             if ($userId != null) {
                 $buku = $this->Buku_model->group_kat_rak()->result();
                 $kat = $this->Buku_model->get_all_kategori()->result();
-
                 $tampungBuku = [];
                 foreach ($kat as $key => $kat_item) {
                     $tmp_buku = [];
@@ -68,6 +68,7 @@ class Buku extends CI_Controller
                 ]);
             };
         } catch (\Throwable $th) {
+            die($th);
             echo json_encode([
                 "response" => [
                     "msg" => 'token salah',
@@ -105,5 +106,4 @@ class Buku extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode($response);
     }
-
 }

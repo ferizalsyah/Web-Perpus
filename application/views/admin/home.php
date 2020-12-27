@@ -4,7 +4,7 @@
      <div class="col-lg-3 col-6">
        <div class="small-box bg-info" style="background-color: #17a2b8!important;">
          <div class="inner">
-           <h3 style="color: white;">150</h3>
+           <h3 style="color: white;"><?php echo 'tb_anggota' ?></h3>
            <p style="color: white;">Data anggota</p>
          </div>
          <div class="icon">

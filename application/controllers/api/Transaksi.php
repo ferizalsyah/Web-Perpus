@@ -1,6 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use \Firebase\JWT\JWT;
+
 require FCPATH . 'vendor/autoload.php';
 
 class Transaksi extends CI_Controller
@@ -16,7 +17,8 @@ class Transaksi extends CI_Controller
     }
 
 
-      public function handelAuth() {
+    public function handelAuth()
+    {
         if ($this->token == null) {
             echo json_encode([
                 "response" => [
@@ -29,7 +31,7 @@ class Transaksi extends CI_Controller
         }
     }
 
-  
+
     public function get_data_pinjam()
     {
         header('Content-Type: application/json');
@@ -38,15 +40,17 @@ class Transaksi extends CI_Controller
         $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
         $userId  = $data != null ? explode('-', $data)[1] : null;
 
-        if($userId != null) {
+        if ($userId != null) {
             /* user ditemukan  */
-            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
-             $response = [
+            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->row();
+            $response = [
                 "response" => [
                     "data" => $res,
                 ]
             ];
-        }else {
+
+            // echo json_encode($response);
+        } else {
             /* user tidak ditemukan  */
             $response = [
                 "response" => [
@@ -54,28 +58,40 @@ class Transaksi extends CI_Controller
                 ]
             ];
         }
-          echo json_encode($response);
+        echo json_encode($response);
     }
 
     /**
      * post peminjaman baru dari android
      */
 
-    public function pinjam_buku() {
+    public function pinjam_buku()
+    {
         $input = json_decode(file_get_contents('php://input'), true);
         $key = "example_key";
         $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
         $userId  = $data != null ? explode('-', $data)[1] : null;
 
-        if($userId != null) {
+        if ($userId != null) {
             /* user ditemukan  */
             $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
-             $response = [
+            $tampung_pinjam = [];
+            foreach ($res as $key => $all_Pinjam) {
+                $pinjam = [];
+                $tmp = [];
+                $tmp['image'] = $all_Pinjam->image;
+                $tmp['judul'] = $all_Pinjam->judul;
+                $tmp['tgl_kembali'] = $all_Pinjam->tgl_kembali;
+                $tmp['data'] = $pinjam;
+
+                array_push($tampung_pinjam, $tmp);
+            }
+            $response = [
                 "response" => [
                     "data" => $res,
                 ]
             ];
-        }else {
+        } else {
             /* user tidak ditemukan  */
             $response = [
                 "response" => [
@@ -83,6 +99,6 @@ class Transaksi extends CI_Controller
                 ]
             ];
         }
-          echo json_encode($response);
+        echo json_encode($response);
     }
 }

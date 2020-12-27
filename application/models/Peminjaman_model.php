@@ -11,4 +11,11 @@ class Peminjaman_model extends CI_Model
         $this->db->where('pinjam.id_anggota', $id_pengguna);
         return $this->db->get();
     }
+
+    public function getDataPinjam($id_pengguna)
+    {
+        $this->db->from('tb_detail_pinjam detail_pinjam');
+        $this->db->where('pinjam.id_anggota', $id_pengguna);
+        return $this->db->get();
+    }
 }

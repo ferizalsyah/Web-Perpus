@@ -16,7 +16,8 @@ class Profil extends CI_Controller
         $this->load->model('Profil_model');
         $this->handelAuth();
     }
-    public function handelAuth() {
+    public function handelAuth()
+    {
         if ($this->token == null) {
             echo json_encode([
                 "response" => [
@@ -49,7 +50,7 @@ class Profil extends CI_Controller
             } else {
                 echo json_encode([
                     "response" => [
-                        "msg" => 'token salah',
+                        "msg" => 'token sala    h',
                     ]
                 ]);
             };
