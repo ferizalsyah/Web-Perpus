@@ -42,16 +42,38 @@ class Transaksi extends CI_Controller
 
         if ($userId != null) {
             /* user ditemukan  */
-            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->row();
+            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
             $response = [
                 "response" => [
                     "data" => $res,
                 ]
             ];
-
-            // echo json_encode($response);
         } else {
             /* user tidak ditemukan  */
+            $response = [
+                "response" => [
+                    "data" => null,
+                ]
+            ];
+        }
+        echo json_encode($response);
+    }
+    public function getPinjam()
+    {
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents('php://input'), true);
+        $key = "example_key";
+        $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
+        $userId  = $data != null ? explode('-', $data)[1] : null;
+        if ($userId != null) {
+            $res = $this->Peminjaman_model->get_data_pinjam($userId)->result();
+            // die(print_r($res));
+            $response = [
+                "response" => [
+                    "data" => $res
+                ]
+            ];
+        } else {
             $response = [
                 "response" => [
                     "data" => null,
