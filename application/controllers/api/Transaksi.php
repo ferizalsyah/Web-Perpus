@@ -60,13 +60,16 @@ class Transaksi extends CI_Controller
     }
     public function index()
     {
+        $status = $this->input->get('status');
+        $status = $status != null ? $status : 0;
         header('Content-Type: application/json');
         $input = json_decode(file_get_contents('php://input'), true);
         $key = "example_key";
         $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
-		$userId  = $data != null ? explode('-', $data)[1] : null;
+        $userId  = $data != null ? explode('-', $data)[1] : null;
         if ($userId != null) {
-            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
+            $res = $this->Peminjaman_model->get_data_peminjaman($userId, $status)->result();
+
             // die(print_r($res));
             $response = [
                 "response" => [
