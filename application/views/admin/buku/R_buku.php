@@ -124,7 +124,7 @@
                         <td><?php echo $op['ket']; ?></td>
                         <td>
                             <?php echo
-                                '<div class="btn-group">
+                            '<div class="btn-group">
                     <a href="' . base_url() . 'admin/Buku/detail_stok/?id_buku=' . $op['id_buku'] . '" class="btn btn-info" role="button" data-toggle="tooltip" title="Detail Stok"><i class="fa fa-list"></i></a>
                     </div>
                      <a href="' . base_url() . 'admin/Buku/edit_buku/?id_buku=' . $op['id_buku'] . '" class="btn btn-warning" role="button" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
@@ -139,7 +139,4 @@
             </tbody>
         </table>
     </div>
-    <div class="box-footer">
-        Menampilkan daftar buku, untuk melihat detail buku klik tombol + dan untuk melihat detail stok, mengedit dan menghapus buku klik tombol pada kolom pilihan.
-    </div><!-- box-footer -->
 </div><!-- /.box -->

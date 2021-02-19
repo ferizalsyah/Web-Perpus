@@ -88,7 +88,6 @@ class Buku extends CI_Controller
 
 	public function index()
 	{
-
 		$data['title'] = 'Home Perpustakaan';
 		$tmp['content'] = $this->load->view('global/home', $data, TRUE);
 		$this->load->view('global/layout', $tmp);
@@ -107,6 +106,7 @@ class Buku extends CI_Controller
 	{
 		$data['title'] = 'Daftar buku';
 		/*data yang ditampilkan*/
+		$data['count_pengguna'] = $this->db->query("SELECT * FROM tb_anggota")->num_rows();
 		$data['data_buku'] = $this->Buku_model->getAllData("tb_buku");
 		$data['data_kategori'] = $this->Buku_model->getAllData("tb_kategori");
 		$data['data_penerbit'] = $this->Buku_model->getAllData("tb_penerbit");

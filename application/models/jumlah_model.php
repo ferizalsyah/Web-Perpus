@@ -12,4 +12,9 @@ class jumlah_model extends CI_Model
             return 0;
         }
     }
+
+    public function dataBuku()
+    {
+        // $data_anggota = mysqli_query;
+    }
 }

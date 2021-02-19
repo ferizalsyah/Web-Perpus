@@ -246,7 +246,7 @@ desired effect
               <li><a href="<?php echo base_url(); ?>admin/Rak"><i class="fa fa-archive"></i>Data Rak</a></li>
               <li><a href="<?php echo base_url(); ?>admin/Pengarang"><i class="fa fa-pencil-square-o"></i>Data Pengarang</a></li>
               <li><a href="<?php echo base_url(); ?>admin/Penerbit"><i class="fa fa-user-secret"></i>Data Penerbit</a></li>
-              <li><a href="<?php echo base_url(); ?>admin/Provinsi"><i class="fa fa-globe"></i>Data Provinsi</a></li>
+              <!-- <li><a href="<?php echo base_url(); ?>admin/Provinsi"><i class="fa fa-globe"></i>Data Provinsi</a></li> -->
             </ul>
           </li>
           <!-- <li class="header">Transaksi</li> -->
@@ -277,7 +277,7 @@ desired effect
           <!-- <li class="header">DENDA</li> -->
           <li><a href="<?php echo base_url(); ?>admin/Denda"><i class="fa fa-usd"></i> <span>Denda</span></a></li>
           <!-- <li class="header">PETUGAS/OPERATOR</li> -->
-          <li><a href="<?php echo base_url(); ?>admin/Petugas"><i class="fa fa-user-plus"></i> <span>Petugas</span></a></li>
+          <li><a href="<?php echo base_url(); ?>admin/Petugas"><i class="fa fa-user-plus"></i> <span>Admin</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>

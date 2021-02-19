@@ -1,4 +1,0 @@
-// git fetch origin master
-// git chekout origin/master
-// git chekout master
-// git merge origin/master

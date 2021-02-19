@@ -1,10 +1,12 @@
+ <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+
  <!-- Main content -->
  <section class="container-fluid">
    <div class="row">
      <div class="col-lg-3 col-6">
        <div class="small-box bg-info" style="background-color: #17a2b8!important;">
          <div class="inner">
-           <h3 style="color: white;"><?php echo 'tb_anggota' ?></h3>
+           <h3 style="color: white;"> <?= $count_pengguna ?></h3>
            <p style="color: white;">Data anggota</p>
          </div>
          <div class="icon">
@@ -18,7 +20,7 @@
        <!-- small box -->
        <div class="small-box bg-success" style="background-color: green">
          <div class="inner">
-           <h3 style="color: white;">53<sup style="font-size: 20px"></sup></h3>
+           <h3 style="color: white;"><?= $count_buku; ?><sup style="font-size: 20px"></sup></h3>
            <p style="color: white;">Data Buku</p>
          </div>
          <div class="icon">
@@ -32,7 +34,7 @@
        <!-- small box -->
        <div class="small-box bg-warning" style="background-color: #ffc107!important;">
          <div class="inner">
-           <h3>44</h3>
+           <h3><?= $count_pinjam; ?></h3>
            <p>Data Peminjaman</p>
          </div>
          <div class="icon">
@@ -46,7 +48,7 @@
        <!-- small box -->
        <div class="small-box bg-danger" style="background-color: #dc3545!important;">
          <div class="inner">
-           <h3 style="color: white;">65</h3>
+           <h3 style="color: white;"><?= $count_kembali; ?></h3>
            <p style="color: white;">Report</p>
          </div>
          <div class="icon">

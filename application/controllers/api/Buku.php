@@ -29,7 +29,6 @@ class Buku extends CI_Controller
             ]);
         }
     }
-
     /* halaman depan */
     public function index()
     {
@@ -77,12 +76,9 @@ class Buku extends CI_Controller
         }
     }
 
-
-
     /* api oook halaman tampil seluruh buku  */
     public function tampilAllBook()
     {
-
         $id = $this->input->get('id_kategori');
         if ($id != null) {
             $buku = $this->Buku_model->getBukuBykategori($id)->result();
@@ -102,6 +98,34 @@ class Buku extends CI_Controller
                     "data"  => null
                 ]
             ];
+        }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    }
+
+    public function show($id)
+    {
+        $key = "example_key";
+        header('Content-Type: application/json');
+        $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
+        $userId  = $data != null ? explode('-', $data)[1] : null;
+        if ($userId != null) {
+            if ($id != null) {
+                $buku = $this->Buku_model->findById($id)->row();
+                $response = [
+                    "title" =>  null,
+                    "msg" => "data buku ditemukan",
+                    "response" => ["data"  => $buku]
+                ];
+            } else {
+                $response = [
+                    "title" =>  null,
+                    "msg" => "data buku tidak ditemukan",
+                    "response" => [
+                        "data"  => null
+                    ]
+                ];
+            }
         }
         header('Content-Type: application/json');
         echo json_encode($response);

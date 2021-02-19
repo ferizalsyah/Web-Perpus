@@ -93,26 +93,35 @@ class Transaksi extends CI_Controller
     public function pinjam_buku()
     {
         $input = json_decode(file_get_contents('php://input'), true);
+
         $key = "example_key";
         $data = $this->token != null ? JWT::decode($this->token, $key, array('HS256')) : null;
         $userId  = $data != null ? explode('-', $data)[1] : null;
 
         if ($userId != null) {
             /* user ditemukan  */
-            $res = $this->Peminjaman_model->get_data_peminjaman($userId)->result();
-            $tampung_pinjam = [];
-            foreach ($res as $key => $all_Pinjam) {
-                $pinjam = [];
-                $tmp = [];
-                $tmp['image'] = $all_Pinjam->image;
-                $tmp['judul'] = $all_Pinjam->judul;
-                $tmp['tgl_kembali'] = $all_Pinjam->tgl_kembali;
-                $tmp['data'] = $pinjam;
+            $data = [
+                'tgl_pinjam' => date("y-m-d"),
+                'id_anggota' => $userId,
+                'tgl_kembali' => date('y-m-d', strtotime('+7 days', strtotime(date('y-m-d')))),
+                'total_buku' => 1,
+                'status' => 0,
+            ];
 
-                array_push($tampung_pinjam, $tmp);
-            }
+            $res = $this->db->insert('tb_pinjam', $data);
+            /* insert to detail pinjam  */
+            $detail_pinjam = [
+                'id_pinjam' => $this->db->insert_id(),
+                'id_buku' => $input["id_buku"],
+                'no_buku' => 10,
+                "flag" => 0,
+            ];
+
+            $res = $this->db->insert('tb_detail_pinjam', $detail_pinjam);
+
             $response = [
                 "response" => [
+                    'status' => 'sucess meminjam data',
                     "data" => $res,
                 ]
             ];

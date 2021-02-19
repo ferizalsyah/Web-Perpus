@@ -27,13 +27,13 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse set-radius-zero">
+    <div class="navbar navbar-inverse set-radius-zero" color: #10e40da3 !important>
         <div class="container">
             <div class="left-div">
                 <div class="user-settings-wrapper">
                     <ul class="nav">
                         <center>
-                            <h1>Sistem Perpustakaan <B>Universitas Bina Darma</B></h1>
+                            <h1><B>Universitas Bina Darma</B></h1>
                         </center>
                     </ul>
                 </div>
@@ -46,13 +46,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
-                        <ul id="menu-top" class="nav navbar-nav navbar-left">
+                        <!-- <ul id="menu-top" class="nav navbar-nav navbar-left">
 
                             <li><a href="<?php echo base_url(); ?>Buku">Home</a></li>
                             <li><a href="<?php echo base_url(); ?>Buku/list_buku">List Buku</a></li>
                             <li><a href="<?php echo base_url(); ?>Buku/profile">Tentang Universitas Bina Darma</a></li>
 
-                        </ul>
+                        </ul> -->
 
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                             <li><a href="<?php echo base_url(); ?>/web/log"><b>Login</b></a></li>
@@ -78,7 +78,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- Published 2018 By : <a href="https://www.sarjanakomedi.com/" target="_blank">SarjanaKomedi.com</a> -->
                 </div>
 
             </div>

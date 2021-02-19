@@ -29,6 +29,8 @@ class Buku extends MY_Controller
 
 
 			/*data yang ditampilkan*/
+			$this->data['count_pengguna'] = $this->db->query("SELECT * FROM tb_anggota")->num_rows();
+			$data['jumlah_buku'] = $this->Buku_model->getDataAnggota();
 			$data['data_buku'] = $this->Buku_model->getAllData("tb_buku");
 			$data['data_kategori'] = $this->Buku_model->getAllData("tb_kategori");
 			$data['data_penerbit'] = $this->Buku_model->getAllData("tb_penerbit");

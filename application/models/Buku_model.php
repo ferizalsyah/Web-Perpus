@@ -39,16 +39,20 @@ class Buku_model extends CI_Model
 	public function getBukuBykategori($id)
 	{
 		$this->db->from('tb_buku buku');
-		$this->db->select('buku.*, rak.nama_rak');
+		$this->db->from('tb_pengarang pen');
+		$this->db->from('tb_penerbit bit');
+		$this->db->select('buku.*, rak.nama_rak, pen.nama_pengarang, bit.nama_penerbit');
 		$this->db->join('tb_rak rak', 'rak.no_rak=buku.no_rak');
 		$this->db->where('buku.id_kategori', $id);
 		return $this->db->get();
 	}
-
+	// ini
 	public function group_kat_rak()
 	{
-		$this->db->select('buku.judul , buku.id_buku , buku.id_kategori, buku.foto, buku.no_rak, buku.thn_terbit, buku.ket, rak.nama_rak, kat.kategori');
+		$this->db->select('buku.judul , buku.id_buku , buku.ISBN, buku.id_kategori, buku.id_pengarang, buku.id_penerbit, buku.foto, buku.no_rak, buku.thn_terbit, buku.ket, rak.nama_rak, kat.kategori,pen.nama_pengarang,bit.nama_penerbit');
 		$this->db->from('tb_buku buku');
+		$this->db->from('tb_pengarang pen');
+		$this->db->from('tb_penerbit bit');
 		$this->db->join('tb_kategori kat', 'buku.id_kategori=kat.id_kategori');
 		$this->db->join('tb_rak rak', 'rak.id_kategori=kat.id_kategori', 'left');
 		$this->db->group_by('buku.id_buku');
@@ -258,6 +262,21 @@ class Buku_model extends CI_Model
 	{
 		$query = $this->db->query("SELECT tb_kelas.id_kelas, tb_kelas.kelas, count(tb_pinjam.id_anggota) AS total FROM `tb_kelas` JOIN tb_anggota on tb_kelas.id_kelas=tb_anggota.id_kelas JOIN tb_pinjam on tb_pinjam.id_anggota=tb_anggota.id_anggota GROUP BY tb_kelas.id_kelas ORDER BY total DESC LIMIT 10");
 		return $query->result_array();
+	}
+
+	public function findById($id)
+	{
+		return $this->db->get_where('tb_buku', ['id_buku' => $id]);
+	}
+
+	public function getDataAnggota()
+	{
+		$query = $this->db->get('tb_anggota');
+		if ($query->num_rows() > 0) {
+			return $query->num_rows();
+		} else {
+			return 0;
+		}
 	}
 }
 

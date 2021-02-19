@@ -5,7 +5,10 @@ class Peminjaman_model extends CI_Model
     public function get_data_peminjaman($id_pengguna, $status = 0)
     {
         $this->db->from('tb_detail_pinjam detail_pinjam');
-        $this->db->select('buku.*, pinjam.*, detail_pinjam.*, kembali.*');
+        $this->db->from('tb_pengarang pin');
+        $this->db->from('tb_penerbit bit');
+        $this->db->from('tb_kategori kat');
+        $this->db->select('buku.*, pinjam.*, detail_pinjam.*, kembali.*, pin.nama_pengarang, bit.nama_penerbit, kat.kategori');
         $this->db->join('tb_pinjam pinjam', 'pinjam.id_pinjam=detail_pinjam.id_pinjam');
         $this->db->join('tb_buku buku', 'detail_pinjam.id_buku=buku.id_buku');
         $this->db->join('tb_kembali kembali', 'pinjam.id_pinjam=kembali.id_pinjam', 'left');
@@ -34,6 +37,7 @@ class Peminjaman_model extends CI_Model
             $this->db->join('tb_kembali kembali', 'kembali.id_pinjam=pinjam.id_pinjam', 'left');
             $this->db->where($where);
             $this->db->where('pinjam.id_anggota', $id_pengguna);
+            $this->db->group_by('pinjam.id_pinjam');
             return $this->db->get('tb_pinjam');
         }
         return $this->db->get('tb_pinjam');
